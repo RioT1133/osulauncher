@@ -1,0 +1,31 @@
+﻿<Window x:Class="osulauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:osulauncher"
+        mc:Ignorable="d"
+        Title="osu!launcher" Height="450" Width="800">
+    <Grid Margin="10">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="1" Grid.Row="0">Songs</Label>
+        <ListBox Grid.Column="1" Grid.Row="1">
+            <ListBoxItem>Song 1</ListBoxItem>
+            <ListBoxItem>Song 2</ListBoxItem>
+            <ListBoxItem>Song 3</ListBoxItem>
+            <ListBoxItem>Song 4</ListBoxItem>
+            <ListBoxItem>Song 5</ListBoxItem>
+        </ListBox>
+
+    </Grid>
+</Window>
