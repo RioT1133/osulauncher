@@ -34,9 +34,9 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">Choose Songs folder:</Label>
+            <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" x:Name="folderLabel">Choose Songs folder:</Label>
             
-            <Button Content="Choose folder:" Grid.Column="1" Grid.Row="2"></Button>
+            <Button Content="Choose folder:" Grid.Column="1" Grid.Row="2" Click="Button_Click"></Button>
         </Grid>
 
     </Grid>
