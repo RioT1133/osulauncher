@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:osulauncher"
         mc:Ignorable="d"
-        Title="osu!launcher" Height="450" Width="800">
+        Title="osu!launcher" Height="450" Width="800" WindowStyle="ThreeDBorderWindow" ResizeMode="CanMinimize">
     <Grid Margin="10">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -20,12 +21,23 @@
 
         <Label Grid.Column="1" Grid.Row="0">Songs</Label>
         <ListBox Grid.Column="1" Grid.Row="1">
-            <ListBoxItem>Song 1</ListBoxItem>
-            <ListBoxItem>Song 2</ListBoxItem>
-            <ListBoxItem>Song 3</ListBoxItem>
-            <ListBoxItem>Song 4</ListBoxItem>
-            <ListBoxItem>Song 5</ListBoxItem>
+            <ListBoxItem x:Name="lstItemName"></ListBoxItem>
         </ListBox>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">Choose Songs folder:</Label>
+            
+            <Button Content="Choose folder:" Grid.Column="1" Grid.Row="2"></Button>
+        </Grid>
 
     </Grid>
 </Window>
