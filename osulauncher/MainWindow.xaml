@@ -18,8 +18,14 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <Label Grid.Column="1" Grid.Row="0">Songs</Label>
+        <Grid Grid.Column="1" Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Grid.Row="0">Songs</Label>
+            <Button Grid.Column="1" Content="Import songs" Click="ImportSongsButton"></Button>
+        </Grid>
         <ListBox Grid.Column="1" Grid.Row="1">
             <ListBoxItem x:Name="lstItemName"></ListBoxItem>
         </ListBox>
@@ -36,7 +42,7 @@
         
             <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" x:Name="folderLabel">Songs folder:</Label>
             
-            <Button Content="..." Grid.Column="1" Grid.Row="2" Click="Button_Click"></Button>
+            <Button Content="..." Grid.Column="1" Grid.Row="2" Click="SongFolderButton"></Button>
         </Grid>
 
     </Grid>
