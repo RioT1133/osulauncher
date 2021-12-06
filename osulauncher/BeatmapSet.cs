@@ -19,6 +19,14 @@ namespace osulauncher
                 this._beatmaps = beatmapSets;
             }
         }
+        public int GetNumBeatmaps()
+        {
+            return this._numBeatmaps;
+        }
+        public List<Beatmap> GetBeatmaps()
+        {
+            return _beatmaps;
+        }
     }
 
     

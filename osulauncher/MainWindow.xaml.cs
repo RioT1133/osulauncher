@@ -32,7 +32,7 @@ namespace osulauncher
         private System.Configuration.Configuration _config =
                 ConfigurationManager.OpenExeConfiguration(
                 ConfigurationUserLevel.None);
-        private List<BeatmapSet> _allBeatmapSets;
+        private List<BeatmapSet> _allBeatmapSets = new List<BeatmapSet>();
 
         public MainWindow()
         {
@@ -70,20 +70,21 @@ namespace osulauncher
             string[] directories = System.IO.Directory.GetDirectories(_songsFolder);
             foreach (string d in directories)
             {
-                string[] files = System.IO.Directory.GetFiles(_songsFolder + d);
+                string[] files = System.IO.Directory.GetFiles(d);
 
                 int diffCount = 0;
 
+                List<string> artists = new List<string>();
+                List<string> titles = new List<string>();
+                List<string> diffNames = new List<string>();
+                List<string> bgPaths = new List<string>();
+                List<string> songPaths = new List<string>();
+
+                List<Beatmap> beatmaps = new List<Beatmap>();
+
                 foreach (string file in files)
                 {
-                    List<Beatmap> beatmaps = null;
                     string fileExtension = System.IO.Path.GetExtension(file);
-
-                    List<string> artists = null;
-                    List<string> titles = null;
-                    List<string> diffNames = null;
-                    List<string> bgPaths = null;
-                    List<string> songPaths = null;
 
                     if (fileExtension == ".osu") //keep in mind these are in alphabetical order
                     {
@@ -99,43 +100,79 @@ namespace osulauncher
                         {
                             if (lines[i].Trim() == "[Metadata]")
                             {
-                                title = lines[i+2].Split(':')[1]; //unicode title
-                                artist = lines[i+4].Split(':')[1]; //unicode artist
-                                diffName = lines[i+6].Split(':')[1]; //diffname
+                                for (int j = 0; j < 7; j++)
+                                {
+                                    if (lines[i + j].Contains("Title")) //older .osu file formats dont have "TitleUnicode" tag in [Metadata]
+                                    {
+                                        title = lines[i + j].Split(':')[1];
+                                    }
+                                    if (lines[i + j].Contains("Artist")) //older .osu file formats dont have "ArtistUnicode" tag in [Metadata]
+                                    {
+                                        artist = lines[i + j].Split(':')[1];
+                                    }
+                                    if (lines[i + j].Contains("Version"))
+                                    {
+                                        diffName = lines[i + j].Split(':')[1];
+                                    }
+                                }
                             }
                             if (lines[i].Trim() == "[General]")
                             {
-                                songPath = file + "/" + lines[i+1].Split(':')[1]; //song path
+                                songPath = file + "/" + lines[i+1].Split(':')[1].Trim(); //song path
                             }
-                            if (lines[i].Trim() == "//Background and Video events")
+                            if (lines[i].Trim() == "[Events]")
                             {
-                                bgPath = file + "/" + lines[i+1].Split(':')[2].Replace("\"", "");
+                                for (int j = 0;j < lines[i].Length; j++)
+                                {
+                                    if (lines[i + j].Contains(".jpg")) //if bg path is specified
+                                    {
+                                        bgPath = file + "/" + lines[i + j].Split(',')[2].Replace("\"", "");
+                                    }
+                                }
                             }
                         }
-                        artists.Append(artist);
-                        titles.Append(title);
-                        diffNames.Append(diffName);
-                        bgPaths.Append(bgPath);
-                        songPaths.Append(songPath);
+                        artists.Add(artist);
+                        titles.Add(title);
+                        diffNames.Add(diffName);
+                        bgPaths.Add(bgPath);
+                        songPaths.Add(songPath);
                         Beatmap temp = new Beatmap(artist, title, diffName, bgPath, songPath);
-                        beatmaps.Append(temp);
+                        beatmaps.Add(temp);
                     }
-                    BeatmapSet beatmapSet = new BeatmapSet(diffNames.Count, beatmaps);
-                    this._allBeatmapSets.Append(beatmapSet);
                 }
-
+                BeatmapSet beatmapSet = new BeatmapSet(diffNames.Count, beatmaps);
+                this._allBeatmapSets.Add(beatmapSet);
             } //handle song importing
             DisplaySongs();
         }
 
         private void DisplaySongs()
         {
-
+            for (int i = 0; i < this._allBeatmapSets.Count; i++)
+            {
+                for (int j = 0; j < this._allBeatmapSets[i].GetNumBeatmaps(); j++)
+                {
+                    ListBoxItem item = new ListBoxItem();
+                    item.Content = this._allBeatmapSets[i].GetBeatmaps()[j].GetMetadata()[0] + //artist
+                                 " - "                                                     +
+                                 this._allBeatmapSets[i].GetBeatmaps()[j].GetMetadata()[1] + //title
+                                 "["                                                       + 
+                                 this._allBeatmapSets[i].GetBeatmaps()[j].GetMetadata()[2] + //diffname
+                                 "]";  
+                    songBox.Items.Add(item);
+                }
+            }
         }
 
         private void UpdateConfigFile(string key, string value)
         {
-            _config.AppSettings.Settings[key].Value = value;
+            if (!_config.AppSettings.Settings.AllKeys.Contains(key))
+            {
+                _config.AppSettings.Settings.Add(key, value);
+            } else
+            {
+                _config.AppSettings.Settings[key].Value = value;
+            }
             _config.AppSettings.SectionInformation.ForceSave = true;
             _config.Save(ConfigurationSaveMode.Full);
         }

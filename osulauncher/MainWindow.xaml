@@ -26,8 +26,8 @@
             <Label Grid.Column="0" Grid.Row="0">Songs</Label>
             <Button Grid.Column="1" Content="Import songs" Click="ImportSongsButton"></Button>
         </Grid>
-        <ListBox Grid.Column="1" Grid.Row="1">
-            <ListBoxItem x:Name="lstItemName"></ListBoxItem>
+        <ListBox Grid.Column="1" Grid.Row="1" x:Name="songBox">
+            
         </ListBox>
 
         <Grid Grid.Row="1" Grid.Column="0" Margin="10">

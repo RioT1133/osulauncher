@@ -22,5 +22,13 @@ namespace osulauncher
             this._bgPath = bgPath;
             this._songPath = songPath;
         }
+        public List<string> GetMetadata()
+        {
+            List<string> ts = new List<string>();
+            ts.Add(_artist);
+            ts.Add(_title);
+            ts.Add(_diffName);
+            return ts;
+        }
     }
 }
